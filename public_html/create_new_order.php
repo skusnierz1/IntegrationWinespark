@@ -78,12 +78,13 @@ function getAllBundles($conn) {
             b.sku              AS bundle_sku,
             b.name             AS bundle_name,
             b.created_at       AS bundle_created,
+            b.preset           AS bundle_preset,
             i.id               AS item_id,
             i.product_sku,
             i.product_name,
             i.quantity,
             i.price
-        FROM bundles AS b
+        FROM bundlesAS b
         LEFT JOIN bundle_items AS i
             ON b.id = i.bundle_id
         ORDER BY b.id DESC, i.id ASC
@@ -103,6 +104,7 @@ function getAllBundles($conn) {
                     'bundle_sku'     => $row->bundle_sku,
                     'bundle_name'    => $row->bundle_name,
                     'bundle_created' => $row->bundle_created,
+                    'bundle_preset' => $row->bundle_preset,
                     'items'          => []
                 ];
             }
@@ -158,7 +160,7 @@ function processPendingOrders($conn, $config) {
         echo "No pending orders found.\n";
         return 0;
     }
-    
+   
     $bundles = getAllBundles($conn);
     
     $processed = 0;
@@ -168,11 +170,15 @@ function processPendingOrders($conn, $config) {
         $requestData = $row['payload'] ?? '';
         $order_number = $row['order_number'] ?? '';
         $pdfName = $row['PDF_URL'] ?? '';
+        
+       
 
         if ($requestData === '' || $requestData === null) {
             // no payload — skip safely
             continue;
         }
+        
+        
 
         // Decode to OBJECT (not assoc array), as requested
         $orderData = json_decode($requestData);
@@ -183,17 +189,21 @@ function processPendingOrders($conn, $config) {
             continue;
         }
         
+        
         updateOrderStatus($conn, $order_number, 'PROCESSING');
+        
+       
 
         // Optional: if you want to pass along identifiers
         // $orderNumber = $row['order_number'] ?? null;
         // $webhookId   = $row['webhook_id'] ?? null;
-
+    
         // Call your external function
         if (function_exists('custom_create_order_xml_new')) {
             
             //0) Prepare XML format based on JSON
             $xml_string = custom_create_order_xml_new($orderData, $config, $bundles, $pdfName);
+            
             
             
             // 1) Get token
@@ -235,6 +245,7 @@ function processPendingOrders($conn, $config) {
             //updateOrderStatus($conn, $order_number, "CREATED");
             //echo $order_number;
             //echo $xml_string;
+            
             
             
             
@@ -459,8 +470,8 @@ function custom_create_order_xml_new($orderData, $config, $bundles, $pdfName) {
     $line_number = 1;
     
     //TEMP FIX FOR BUNDLES
-    $bundlesCases = $bundles;
-    $bundles = null;
+    //$bundlesCases = $bundles;
+    //$bundles = null;
          
     foreach ($lineItems as $item) {
         
@@ -469,10 +480,16 @@ function custom_create_order_xml_new($orderData, $config, $bundles, $pdfName) {
         if ($sku === 'WSAM150' || $sku === 'WSMM15') {
             continue; // Skip this iteration
         }
-
-        if (isset($bundles[$sku])) {
+        
+        $bundleRow = $bundles[$sku] ?? null;
+        
+        echo 'Test ' . $bundleRow->bundle_sku . ' Test Preset ' .  $bundleRow->bundle_preset; 
+        
+        //This is not LCB --> It should translate to singles
+        if ($bundleRow !== null && !$bundleRow->bundle_preset) {
+        //if (isset($bundles[$sku])) {
             // ✅ SKU is a bundle
-            $bundle = $bundles[$sku];
+            $bundle = $bundleRow;
             //echo "<h3>Bundle: {$bundle->bundle_name} ({$bundle->bundle_sku})</h3>";
     
             foreach ($bundle->items as $bundleItem) {
@@ -489,7 +506,7 @@ function custom_create_order_xml_new($orderData, $config, $bundles, $pdfName) {
                 
                 //$lineItemElement->addChild('FKProduct', $item->get_product_id());
                 $lineItemElement->addChild('FKProduct', $bundleItem->product_sku);
-                $lineItemElement->addChild('SinglesOrdered', $bundleItem->quantity);
+                $lineItemElement->addChild('SinglesOrdered', $bundleItem->quantity * $item->quantity);
                 $lineItemElement->addChild('SinglePrice',$formatted_subtotal);
                 //$lineItemElement->addChild('SinglePrice','0.00'); //Add items with zero price as requested
                 $lineItemElement->addChild('PODLineNumber', $line_number);
@@ -505,7 +522,7 @@ function custom_create_order_xml_new($orderData, $config, $bundles, $pdfName) {
             //$lineItemElement->addChild('FKProduct', $item->get_product_id());
             $lineItemElement->addChild('FKProduct', $item->sku);
             
-            if (isset($bundlesCases[$sku])){
+            if (isset($bundles[$sku])){
                 $lineItemElement->addChild('UnitsOrdered', $item->quantity);
             }
             else {
@@ -527,6 +544,7 @@ function custom_create_order_xml_new($orderData, $config, $bundles, $pdfName) {
     
     //SO20240101_765.SIPPAW
     //$fileName = __DIR__ . '/Orders/'. $order;
+    //$fileName = 'Orders/'. $order;
     // Save the XML to a file
     //$file_path = get_template_directory() . '/OrdersXML' . 'order_' . $order_id . '.xml';
    //$file_path = $fileName . '.xml';
@@ -535,6 +553,7 @@ function custom_create_order_xml_new($orderData, $config, $bundles, $pdfName) {
         //postOrder($xml_string);
     //}
     
+    //echo $file_path;
     //file_put_contents($file_path, $xml_string);
     return $xml_string;
     // You can also send the XML via email, API, or perform any other custom actions here
@@ -543,132 +562,132 @@ function custom_create_order_xml_new($orderData, $config, $bundles, $pdfName) {
 
 
 function checkDateForPublicHoliday($orderDateTimeStore, $year, $country) {
-	$countryCode = $country;
+    $countryCode = $country;
 
-	// Get the current date
-	$currentDate = DateTime::createFromFormat('Y-m-d H:i:s', $orderDateTimeStore)->format('Y-m-d');
-	
-	//echo 'Holiday date: ' . $currentDate . "\n";
-	
-	// API endpoint for UK public holidays
-	$apiEndpoint = "https://date.nager.at/api/v3/publicholidays/$year/$country";
-	
-	// Fetch data from the API
-	$response = file_get_contents($apiEndpoint);
-	
-	// Check if the request was successful
-	if ($response !== false) {
-	    // Decode JSON response
-	    $holidays = json_decode($response, true);
-	
-	    // Check if the current date is a public holiday
-	    $isPublicHoliday = "false";
-	    
-	    foreach ($holidays as $holiday) {
-	    	//echo 'Holiday date: ' . $holiday['date'] . "\n";
-	        if ($holiday['date'] === $currentDate) {
-	            $isPublicHoliday = "true";
-	            break;
-	        }
-	    }
-	
-	    // Output the result
-	    
-	    if ($isPublicHoliday === "true") {
-	        //echo "Today is a public holiday in the UK.\n";
-	    } else {
-	        //echo "Today is not a public holiday in the UK.\n";
-	    }
-	    
-	} else {
-	    echo "Error fetching data from the API.\n";
-	}
-	
-	return $isPublicHoliday;
+    // Get the current date
+    $currentDate = DateTime::createFromFormat('Y-m-d H:i:s', $orderDateTimeStore)->format('Y-m-d');
+    
+    //echo 'Holiday date: ' . $currentDate . "\n";
+    
+    // API endpoint for UK public holidays
+    $apiEndpoint = "https://date.nager.at/api/v3/publicholidays/$year/$country";
+    
+    // Fetch data from the API
+    $response = file_get_contents($apiEndpoint);
+    
+    // Check if the request was successful
+    if ($response !== false) {
+        // Decode JSON response
+        $holidays = json_decode($response, true);
+    
+        // Check if the current date is a public holiday
+        $isPublicHoliday = "false";
+        
+        foreach ($holidays as $holiday) {
+            //echo 'Holiday date: ' . $holiday['date'] . "\n";
+            if ($holiday['date'] === $currentDate) {
+                $isPublicHoliday = "true";
+                break;
+            }
+        }
+    
+        // Output the result
+        
+        if ($isPublicHoliday === "true") {
+            //echo "Today is a public holiday in the UK.\n";
+        } else {
+            //echo "Today is not a public holiday in the UK.\n";
+        }
+        
+    } else {
+        echo "Error fetching data from the API.\n";
+    }
+    
+    return $isPublicHoliday;
 }
 
 function createCollectDate($orderDateTimeStore, $cutOffTime) {
-	
-	$dateString = $orderDateTimeStore;
-	
-	$targetTimeOrder = DateTime::createFromFormat('H:i:s', $cutOffTime);
-	$targetTimeOrder = $targetTimeOrder->format('H:i:s');
-	
-	$orderDate = DateTime::createFromFormat('Y-m-d H:i:s', $dateString);
-	$collectionDate = DateTime::createFromFormat('Y-m-d H:i:s', $dateString);
-	$orderTime = $orderDate->format('H:i:s');
+    
+    $dateString = $orderDateTimeStore;
+    
+    $targetTimeOrder = DateTime::createFromFormat('H:i:s', $cutOffTime);
+    $targetTimeOrder = $targetTimeOrder->format('H:i:s');
+    
+    $orderDate = DateTime::createFromFormat('Y-m-d H:i:s', $dateString);
+    $collectionDate = DateTime::createFromFormat('Y-m-d H:i:s', $dateString);
+    $orderTime = $orderDate->format('H:i:s');
 
-	//Create Time
-	$timestamp = strtotime($dateString);
-	$weekDay = date('l', $timestamp);
-	
-	echo 'Order Date: ' . $orderDate->format('d/m/Y H:i:s') . "\n";
-	//echo 'Current Date: ' . $dateString . "\n";
-	//echo 'Next Monday: ' . $nextMonday->format('Y-m-d') . "\n";
-	//echo 'Order Time: ' . $orderTime . "\n";
-	//echo 'Target Cut-off Time: ' . $targetTimeOrder . "\n";
-	//echo 'Order Week Day: ' . date('l', $timestamp) . "\n";
-	
-	// Compare the current time with the target time and set collection date
-	$collectionDateFound = false;
-	
-	while (!$collectionDateFound) {
-		
-		$orderTime = $collectionDate->format('H:i:s');
+    //Create Time
+    $timestamp = strtotime($dateString);
+    $weekDay = date('l', $timestamp);
+    
+    echo 'Order Date: ' . $orderDate->format('d/m/Y H:i:s') . "\n";
+    //echo 'Current Date: ' . $dateString . "\n";
+    //echo 'Next Monday: ' . $nextMonday->format('Y-m-d') . "\n";
+    //echo 'Order Time: ' . $orderTime . "\n";
+    //echo 'Target Cut-off Time: ' . $targetTimeOrder . "\n";
+    //echo 'Order Week Day: ' . date('l', $timestamp) . "\n";
+    
+    // Compare the current time with the target time and set collection date
+    $collectionDateFound = false;
+    
+    while (!$collectionDateFound) {
+        
+        $orderTime = $collectionDate->format('H:i:s');
 
-		//Create Time
-		$timestamp = strtotime($collectionDate->format('Y-m-d H:i:s'));
-		$weekDay = date('l', $timestamp);
-	
-		if ( $orderTime < $targetTimeOrder ) {
-			
-			if ( $weekDay === "Saturday" OR $weekDay === "Sunday")
-			{
-				$currentDayOfWeek = $collectionDate->format('N');
-				$daysToAdd = $currentDayOfWeek <= 1 ? 1 : (8 - $currentDayOfWeek);
-				$collectionDate = $collectionDate->modify("+$daysToAdd days");
-				//echo 'Collection Date: ' . $collectionDate->format('d/m/Y') . "\n";
-			}
-			else
-			{
-				//$collectionDate = $currentDate->modify('+1 day');
-				$collectionDate = $collectionDate;
-				//echo 'Collection Date: ' . $collectionDate->format('d/m/Y') . "\n";
-			}
-		} 
-		else {
-		    if ($weekDay === "Monday" OR $weekDay === "Tuesday" OR $weekDay === "Wednesday" OR $weekDay === "Thursday")
-			{
-				$collectionDate = $collectionDate->modify('+1 day');
-				//echo 'Collection Date: ' . $orderDate->format('d/m/Y') . "\n";
-			}
-			else
-			{
-				$currentDayOfWeek = $collectionDate->format('N');
-				$daysToAdd = $currentDayOfWeek <= 1 ? 1 : (8 - $currentDayOfWeek);
-				$collectionDate = $collectionDate->modify("+$daysToAdd days");
-				//echo 'Collection Date: ' . $collectionDate->format('d/m/Y') . "\n";
-			}
-		}
-		
-		//Get List of Public holidays
-		$currentYearString = date('Y'); //TODO: Get param from collection date. 
-		$publicHoliday = checkDateForPublicHoliday($collectionDate->format('Y-m-d H:i:s') , $currentYearString, 'GB');
-		//If collection Date is public holiday + 1 day and continue
-		if ($publicHoliday === "true"){
-			$collectionDate = $collectionDate->modify('+1 day');
-			$collectionDate->setTime(12, 00, 0);
-			//echo 'Loop Collection Date True: ' . $collectionDate->format('d/m/Y') . "\n";
-			$collectionDateFound = false;
-		}
-		else
-		{
-			//echo 'Loop Collection Date False: ';
-			$collectionDateFound = true;
-			continue;
-		}
-	}
-	return $collectionDate->format('d/m/Y');
+        //Create Time
+        $timestamp = strtotime($collectionDate->format('Y-m-d H:i:s'));
+        $weekDay = date('l', $timestamp);
+    
+        if ( $orderTime < $targetTimeOrder ) {
+            
+            if ( $weekDay === "Saturday" OR $weekDay === "Sunday")
+            {
+                $currentDayOfWeek = $collectionDate->format('N');
+                $daysToAdd = $currentDayOfWeek <= 1 ? 1 : (8 - $currentDayOfWeek);
+                $collectionDate = $collectionDate->modify("+$daysToAdd days");
+                //echo 'Collection Date: ' . $collectionDate->format('d/m/Y') . "\n";
+            }
+            else
+            {
+                //$collectionDate = $currentDate->modify('+1 day');
+                $collectionDate = $collectionDate;
+                //echo 'Collection Date: ' . $collectionDate->format('d/m/Y') . "\n";
+            }
+        } 
+        else {
+            if ($weekDay === "Monday" OR $weekDay === "Tuesday" OR $weekDay === "Wednesday" OR $weekDay === "Thursday")
+            {
+                $collectionDate = $collectionDate->modify('+1 day');
+                //echo 'Collection Date: ' . $orderDate->format('d/m/Y') . "\n";
+            }
+            else
+            {
+                $currentDayOfWeek = $collectionDate->format('N');
+                $daysToAdd = $currentDayOfWeek <= 1 ? 1 : (8 - $currentDayOfWeek);
+                $collectionDate = $collectionDate->modify("+$daysToAdd days");
+                //echo 'Collection Date: ' . $collectionDate->format('d/m/Y') . "\n";
+            }
+        }
+        
+        //Get List of Public holidays
+        $currentYearString = date('Y'); //TODO: Get param from collection date. 
+        $publicHoliday = checkDateForPublicHoliday($collectionDate->format('Y-m-d H:i:s') , $currentYearString, 'GB');
+        //If collection Date is public holiday + 1 day and continue
+        if ($publicHoliday === "true"){
+            $collectionDate = $collectionDate->modify('+1 day');
+            $collectionDate->setTime(12, 00, 0);
+            //echo 'Loop Collection Date True: ' . $collectionDate->format('d/m/Y') . "\n";
+            $collectionDateFound = false;
+        }
+        else
+        {
+            //echo 'Loop Collection Date False: ';
+            $collectionDateFound = true;
+            continue;
+        }
+    }
+    return $collectionDate->format('d/m/Y');
 }
 
 /*
