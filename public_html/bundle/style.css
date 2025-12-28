@@ -48,10 +48,12 @@ a { text-decoration: none; color: inherit; }
 .grid { display: grid; }
 .grid-3 { grid-template-columns: 1fr 140px 160px; }
 .grid-4 { grid-template-columns: 1fr 1fr 140px 160px; } /* SKU, Product Name, Quantity, Price */
-
+.grid-5 { grid-template-columns: 100px 1fr 1fr 140px 160px; gap: 12px; }
 
 .gap { gap: 12px; }
 
 .section-title { margin: 12px 0 4px; font-weight: 700; }
 .alert { padding: 10px 12px; border-radius: 10px; margin-bottom: 12px; font-size: 14px; }
 .alert-error { background: #fde8e8; color: var(--red); border: 1px solid #f8c9c5; }
+
+
