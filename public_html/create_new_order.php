@@ -84,7 +84,7 @@ function getAllBundles($conn) {
             i.product_name,
             i.quantity,
             i.price
-        FROM bundlesAS b
+        FROM bundles AS b
         LEFT JOIN bundle_items AS i
             ON b.id = i.bundle_id
         ORDER BY b.id DESC, i.id ASC
@@ -150,7 +150,6 @@ function printPendingOrders($conn) {
  * Returns the number of successfully processed orders.
  */
 function processPendingOrders($conn, $config) {
-    
     // === LCB connection ===
     $clientID     = $config['LCB_CLIENTID'];
     $clientSecret = $config['LCB_CLIENTSECRET'];
@@ -170,15 +169,11 @@ function processPendingOrders($conn, $config) {
         $requestData = $row['payload'] ?? '';
         $order_number = $row['order_number'] ?? '';
         $pdfName = $row['PDF_URL'] ?? '';
-        
-       
 
         if ($requestData === '' || $requestData === null) {
             // no payload — skip safely
             continue;
         }
-        
-        
 
         // Decode to OBJECT (not assoc array), as requested
         $orderData = json_decode($requestData);
@@ -189,25 +184,15 @@ function processPendingOrders($conn, $config) {
             continue;
         }
         
-        
         updateOrderStatus($conn, $order_number, 'PROCESSING');
-        
-       
 
-        // Optional: if you want to pass along identifiers
-        // $orderNumber = $row['order_number'] ?? null;
-        // $webhookId   = $row['webhook_id'] ?? null;
-    
         // Call your external function
         if (function_exists('custom_create_order_xml_new')) {
             
             //0) Prepare XML format based on JSON
             $xml_string = custom_create_order_xml_new($orderData, $config, $bundles, $pdfName);
             
-            
-            
             // 1) Get token
-            
             $tok = getAccessToken($clientID, $clientSecret);
             
             if (!$tok['ok']) {
@@ -220,9 +205,6 @@ function processPendingOrders($conn, $config) {
             
             $accessToken = $tok['token'];
             echo 'Test: ' . $accessToken;
-            
-            //updateOrderStatus($conn, $order_number, 'CREATED');
-            
             
             $res = postOrder($xml_string, $accessToken);
 
@@ -245,13 +227,7 @@ function processPendingOrders($conn, $config) {
             //updateOrderStatus($conn, $order_number, "CREATED");
             //echo $order_number;
             //echo $xml_string;
-            
-            
-            
-            
-            
-            
-    
+
             $processed++;
         } 
         //else {
@@ -483,8 +459,6 @@ function custom_create_order_xml_new($orderData, $config, $bundles, $pdfName) {
         
         $bundleRow = $bundles[$sku] ?? null;
         
-        echo 'Test ' . $bundleRow->bundle_sku . ' Test Preset ' .  $bundleRow->bundle_preset; 
-        
         //This is not LCB --> It should translate to singles
         if ($bundleRow !== null && !$bundleRow->bundle_preset) {
         //if (isset($bundles[$sku])) {
@@ -493,7 +467,7 @@ function custom_create_order_xml_new($orderData, $config, $bundles, $pdfName) {
             //echo "<h3>Bundle: {$bundle->bundle_name} ({$bundle->bundle_sku})</h3>";
     
             foreach ($bundle->items as $bundleItem) {
-                echo "- {$bundleItem->product_name} ({$bundleItem->product_sku}) × {$bundleItem->quantity}<br>";
+                //echo "- {$bundleItem->product_name} ({$bundleItem->product_sku}) × {$bundleItem->quantity}<br>";
                 $lineItemElement = $header->addChild('LD');
         
                 // Get individual item details
