@@ -1,0 +1,89 @@
+[11-Dec-2025 11:14:20 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[11-Dec-2025 11:29:00 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 481
+[11-Dec-2025 11:30:12 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 481
+[11-Dec-2025 11:32:35 UTC] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function printPendingOrders(), 0 passed in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 159 and exactly 1 expected in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php:132
+Stack trace:
+#0 /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php(159): printPendingOrders()
+#1 /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php(33): processPendingOrders()
+#2 {main}
+  thrown in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 132
+[11-Dec-2025 11:33:06 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 482
+[11-Dec-2025 11:33:46 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 483
+[11-Dec-2025 11:33:59 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 483
+[11-Dec-2025 11:34:06 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 485
+[11-Dec-2025 11:34:27 UTC] PHP Fatal error:  Uncaught Error: Object of class stdClass could not be converted to string in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php:192
+Stack trace:
+#0 /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php(33): processPendingOrders()
+#1 {main}
+  thrown in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 192
+[11-Dec-2025 11:34:40 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 486
+[11-Dec-2025 11:34:53 UTC] PHP Fatal error:  Uncaught Error: Object of class stdClass could not be converted to string in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php:192
+Stack trace:
+#0 /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php(33): processPendingOrders()
+#1 {main}
+  thrown in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 192
+[11-Dec-2025 11:35:21 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 486
+[11-Dec-2025 11:35:40 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 486
+[11-Dec-2025 11:36:08 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 488
+[11-Dec-2025 11:36:16 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 488
+[11-Dec-2025 11:36:33 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 488
+[11-Dec-2025 11:37:04 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 488
+[11-Dec-2025 11:37:24 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 488
+[11-Dec-2025 11:37:51 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 488
+[11-Dec-2025 11:38:59 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 488
+[11-Dec-2025 11:39:30 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 488
+[11-Dec-2025 11:40:59 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 488
+[11-Dec-2025 11:42:25 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 487
+[11-Dec-2025 11:42:25 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 490
+[11-Dec-2025 11:43:00 UTC] PHP Warning:  Attempt to read property "bundle_sku" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 487
+[11-Dec-2025 11:43:00 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 487
+[11-Dec-2025 11:43:00 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 490
+[11-Dec-2025 11:43:58 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 487
+[11-Dec-2025 11:43:58 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 490
+[11-Dec-2025 11:44:16 UTC] PHP Warning:  Attempt to read property "bundle_preset" on null in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 490
+[11-Dec-2025 11:45:18 UTC] PHP Fatal error:  Uncaught Error: Object of class stdClass could not be converted to string in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php:487
+Stack trace:
+#0 /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php(206): custom_create_order_xml_new()
+#1 /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php(33): processPendingOrders()
+#2 {main}
+  thrown in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order(1).php on line 487
+[11-Dec-2025 14:42:20 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[12-Dec-2025 11:24:19 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[12-Dec-2025 15:54:19 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[12-Dec-2025 15:58:10 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[12-Dec-2025 16:00:21 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[12-Dec-2025 17:22:19 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[13-Dec-2025 09:40:20 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[13-Dec-2025 19:02:20 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[14-Dec-2025 17:54:20 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[15-Dec-2025 06:48:19 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php:22
+Stack trace:
+#0 /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php(22): mysqli->__construct()
+#1 /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/LCB.php(5): require_once('/home/u39453513...')
+#2 {main}
+  thrown in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 22
+[15-Dec-2025 06:50:24 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[15-Dec-2025 09:56:19 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[15-Dec-2025 10:46:20 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[15-Dec-2025 11:58:18 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[15-Dec-2025 16:28:20 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[15-Dec-2025 22:06:19 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[16-Dec-2025 06:38:19 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[16-Dec-2025 13:14:07 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[16-Dec-2025 16:38:19 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[16-Dec-2025 20:04:19 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[16-Dec-2025 20:24:20 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[17-Dec-2025 09:58:05 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[17-Dec-2025 18:04:19 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[17-Dec-2025 20:54:19 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[17-Dec-2025 21:38:20 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[17-Dec-2025 22:42:20 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[18-Dec-2025 00:36:19 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[18-Dec-2025 10:02:04 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[18-Dec-2025 11:30:17 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[19-Dec-2025 14:28:12 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[20-Dec-2025 11:12:19 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[20-Dec-2025 18:34:20 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[21-Dec-2025 20:48:19 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[23-Dec-2025 12:42:19 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
+[27-Dec-2025 12:30:21 UTC] PHP Warning:  Array to string conversion in /home/u394535132/domains/lightgray-vulture-703201.hostingersite.com/public_html/create_new_order.php on line 226
